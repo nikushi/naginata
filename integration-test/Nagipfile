@@ -1,0 +1,25 @@
+nagios_server 'nagios0:2220'
+nagios_server 'nagios1:2221'
+
+# これはとりあえず対応しなくて良い気がする
+host 'web01.tokyo.local', services: ['PING', 'LOAD'], on: 'nagios0'
+host 'redis01.osaka.local', services: ['PING', 'LOAD'], on: 'nagios1'
+
+set :nagios_server_options, {
+  command_file: '/var/spool/nagios/cmd/nagios.cmd',
+  run_command_as: 'nagios',
+}
+
+#
+# Custom SSH Options
+# ==================
+# You may pass any option but keep in mind that net/ssh understands a
+# limited set of options, consult the Net::SSH documentation.
+# http://net-ssh.github.io/net-ssh/classes/Net/SSH.html#method-c-start
+#
+# Global options
+# --------------
+set :ssh_options, {
+  user: 'vagrant',
+  keys: %w(~/.vagrant.d/insecure_private_key),
+}

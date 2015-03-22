@@ -1,0 +1,100 @@
+$httpd_config = <<-EOS
+ScriptAlias /nagios/cgi-bin/ "/usr/lib64/nagios/cgi-bin/"
+
+<Directory "/usr/lib64/nagios/cgi-bin/">
+   Options ExecCGI
+   AllowOverride None
+   Order allow,deny
+   Allow from all
+</Directory>
+
+Alias /nagios "/usr/share/nagios/html"
+
+<Directory "/usr/share/nagios/html">
+   Options None
+   AllowOverride None
+   Order allow,deny
+   Allow from all
+</Directory>
+EOS
+
+def nagios_config_for(h)
+  out = <<-EOS
+#
+# #{h}
+#
+define host {
+        use                     linux-server
+        host_name               #{h}
+        alias                   #{h}
+        address                 127.0.0.1
+        }
+
+define service {
+        use                             generic-service
+        host_name                       #{h}
+        service_description             PING
+        check_command                   check_ping!100.0,20%!500.0,60%
+        }
+
+define service {
+        use                             generic-service
+        host_name                       #{h}
+        service_description             SSH
+        check_command                   check_ssh
+        notifications_enabled           0
+        }
+
+define service {
+        use                             generic-service
+        host_name                       #{h}
+        service_description             Load
+        check_command                   check_local_load!5.0,4.0,3.0!10.0,6.0,4.0
+        }
+
+EOS
+end
+
+Vagrant.configure("2") do |config|
+
+  hosts = {
+    :nagios0 => %w(web01.tokyo.local redis01.tokyo.local),
+    :nagios1 => %w(web01.osaka.local redis01.osaka.local),
+  }
+
+  hosts.keys.each_with_index do |hostname, i|
+    config.vm.define(hostname, primary: true) do |config|
+      config.vm.define hostname
+      config.vm.box = "chef/centos-6.5"
+      config.vm.network "forwarded_port", guest: 22, host: "222#{i}".to_i, id: "ssh"
+      config.ssh.guest_port = "222#{i}".to_i
+      config.vm.network "forwarded_port", guest: 80, host: "888#{i}".to_i
+      
+      nagios_config = hosts[hostname].inject("") { |a, b| a + nagios_config_for(b)}
+
+      config.vm.provision :shell,
+        inline: <<-INLINE
+
+          echo SELINUX=disabled > /etc/selinux/config
+          setenforce 0
+
+          yum -y -q install epel-release
+          yum -y -q install nagios nagios-plugins-all php httpd
+          chkconfig httpd on && chkconfig nagios on
+
+          echo "
+#{$httpd_config}
+" > /etc/httpd/conf.d/nagios.conf 
+          
+          echo "
+#{nagios_config}
+" > /etc/nagios/conf.d/servers.cfg
+
+
+          sed -i 's/use_authentication=1/use_authentication=0/' /etc/nagios/cgi.cfg
+          service httpd start && service nagios start
+      INLINE
+
+    end
+  end
+end
