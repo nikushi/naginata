@@ -23,6 +23,31 @@ module Nagip::CLI
         puts "Saved into #{st.path}" if options[:verbose]
       end
     end
+
+    desc 'show', 'Show nagios host and service status'
+    method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
+    method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean, default: false
+    def show(*patterns)
+      invoke :fetch
+
+      if options[:all_hosts]
+        ::Nagip::Configuration.env.add_filter(:host, :all)
+      else
+        ::Nagip::Configuration.env.add_filter(:host, patterns)
+      end
+      if options[:services]
+        ::Nagip::Configuration.env.add_filter(:service, options[:services])
+      end
+
+      Nagip::Runner.run_locally do |nagios_server, _|
+        st = ::Nagip::Status.find(nagios_server.hostname)
+        st.status.service_items.group_by{|section| section.host_name}.each do |host_name, sections|
+          puts host_name
+          sections.each{|section| puts "  " + section.service_description }
+          puts
+        end
+      end
+    end
   end
 end
  
