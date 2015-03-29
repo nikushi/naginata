@@ -3,8 +3,8 @@ require 'nagip/loader' # Load config
 require 'nagip/runner'
 require 'nagip/command/external_command'
 
-module Nagip
-  class CLI < Thor
+module Nagip::CLI
+  class Boot < Thor
     class_option :nagios, desc: "Filter hosts by nagios server names", type: :array
     class_option :dry_run, aliases: "-n", type: :boolean
     class_option :verbose, aliases: "-v", type: :boolean
