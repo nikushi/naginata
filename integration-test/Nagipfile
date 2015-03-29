@@ -7,6 +7,7 @@ host 'redis01.osaka.local', services: ['PING', 'LOAD'], on: 'nagios1'
 
 set :nagios_server_options, {
   command_file: '/var/spool/nagios/cmd/nagios.cmd',
+  status_file: '/var/log/nagios/status.dat',
   run_command_as: 'nagios',
 }
 
