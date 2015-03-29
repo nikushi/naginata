@@ -2,11 +2,15 @@ require 'nagip/loader' # Load config
 require 'nagip/runner'
 require 'nagip/command/external_command'
 require 'nagip/cli/base'
+require 'nagip/cli/status'
 require 'nagip/configuration'
 
 module Nagip::CLI
   class Boot < Base
 
+    # Sub commands
+    desc "status COMMANDS", "commands for host and service status"
+    subcommand "status", ::Nagip::CLI::Status
 
     desc 'notification [hostpattern ..]', 'control notification'
     method_option :enable, aliases: "-e", desc: "Enable notification", type: :boolean, default: false
