@@ -56,9 +56,14 @@ module Nagip::CLI
       end
 
       Nagip::Runner.run do |backend, nagios_server, services|
+        path = nagios_server.fetch(:command_file) || command_file
+
         services.each do |service|
-          opts = {path: (nagios_server.fetch(:command_file) || command_file), host_name: service.hostname, service_description: service.description}
-          command_arg = Nagip::Command::ExternalCommand.send(method, opts).split(/\s+/, 2)
+          opts = {path: (nagios_server.fetch(:command_file) || command_file), host_name: service.hostname}
+          opts.merge!(service_description: service.description) if service.description != :ping
+          action = options[:enable] ? 'enable' : 'disable'
+          host_or_svc = service.description == :ping ? 'host' : 'svc'
+          command_arg = Nagip::Command::ExternalCommand.send("#{action}_#{host_or_svc}_notifications".to_sym, opts).split(/\s+/, 2)
           command = command_arg.shift.to_sym
           backend.execute command, command_arg
         end
