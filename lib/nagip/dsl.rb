@@ -7,10 +7,6 @@ module Nagip
       Configuration.env.nagios_server(name)
     end
 
-    def host(host, options = {})
-      Configuration.env.host(host, options)
-    end
-
     def fetch(key, default=nil, &block)
       env.fetch(key, default, &block)
     end
