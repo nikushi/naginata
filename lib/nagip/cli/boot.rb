@@ -12,7 +12,7 @@ module Nagip::CLI
     desc "status COMMANDS", "commands for host and service status"
     subcommand "status", ::Nagip::CLI::Status
 
-    desc 'notification [hostpattern ..]', 'control notification'
+    desc 'notification [hostpattern ..]', 'Control notification'
     method_option :enable, aliases: "-e", desc: "Enable notification", type: :boolean, default: false
     method_option :disable, aliases: "-d", desc: "Disable notification", type: :boolean, default: false
     method_option :force, aliases: "-f", desc: "Run without prompting for confirmation", type: :boolean, default: false
@@ -28,6 +28,7 @@ module Nagip::CLI
       if options[:all_hosts]
         ::Nagip::Configuration.env.add_filter(:host, :all)
       else
+        self.help(:notification) and abort if patterns.empty?
         ::Nagip::Configuration.env.add_filter(:host, patterns)
       end
       if options[:services]
