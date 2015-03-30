@@ -2,26 +2,27 @@
 
 **Nagip is now under development to release first version, so DO NOT USE in production**
 
-Nagip is multi nagios server control tool. It executes nagis external commands or read status file on remote nagios servers from single workstation host over ssh connection.
+Nagip is multi nagios server control tool. If you have multiple nagios servers and want to control them from single workstation host by CLI over ssh connection, Nagip is good for you.
 
-Nagip includes `nagip` command executable. `nagip` command can be used to:
+Nagip includes `nagip` command executable. `nagip` command can be done by just single command execution from workstation host.
 
-* Display current host and service status. (will be added)
 * Enable/Disable notifications of hosts and services.
-* Add/Delete hosts/services downtime. (will be added)
+* Display current host and service status. (will be added)
 * and more
 
-Trying to nagip is really easy for you. You don't need to install ruby and nagip into nagios servers, just setup a workstation host which can login to nagios server over ssh.
+If you already have nagios servers, it's easy to try out Nagip! It does not require to install ruby and Nagip on remote nagio servers.
 
 ## Requirements
 
-Set up a workstation host which can connect to nagios servers over ssh connection. Currently nagip supports only no passphrase remote login.
+Set up a workstation host which can connect to nagios servers over ssh connection. Currently supports only no passphrase remote login.
 
 ## Installation
 
 Install nagip on workstation host.
 
-Add this line to your application's Gemfile:
+    $ gem install nagip
+
+Or if you use bundler, add this line to your application's Gemfile:
 
 ```ruby
 gem 'nagip'
@@ -31,9 +32,6 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install nagip
 
 ## Configuration
 
@@ -61,26 +59,6 @@ set :ssh_options, {
 ## Usage
 
 
-### Display status (will be added)
-
-#### Show server001's status
-
-```
-$ nagip status server001
-```
-
-#### Show all hosts' status
-
-```
-$ nagip status -a
-```
-
-#### Show all hosts' specific service status
-
-```
-$ nagip status -a -s cpu
-```
-
 ### Notification
 
 #### Enable(Disable) host and service notifications of server001
@@ -105,6 +83,26 @@ $ nagip notification -a -[e|d]
 
 ```
 $ nagip notification -a -s cpu -[e|d] 
+```
+
+### Display status (will be added)
+
+#### Show server001's status
+
+```
+$ nagip status server001
+```
+
+#### Show all hosts' status
+
+```
+$ nagip status -a
+```
+
+#### Show all hosts' specific service status
+
+```
+$ nagip status -a -s cpu
 ```
 
 
