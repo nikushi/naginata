@@ -15,6 +15,7 @@ module Nagip::CLI
     desc 'notification [hostpattern ..]', 'control notification'
     method_option :enable, aliases: "-e", desc: "Enable notification", type: :boolean, default: false
     method_option :disable, aliases: "-d", desc: "Disable notification", type: :boolean, default: false
+    method_option :force, aliases: "-f", desc: "Run without prompting for confirmation", type: :boolean, default: false
     method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean, default: false
     def notification(*patterns)
@@ -43,6 +44,17 @@ module Nagip::CLI
 
       command_file = ::Nagip::Configuration.env.fetch(:nagios_server_options)[:command_file]
 
+      if !options[:force]
+        puts "Following notifications will be #{options[:enable] ? 'enabled' : 'disabled'}"
+        Nagip::Runner.run_locally do |nagios_server, services|
+          puts nagios_server.hostname
+          services.each do |service|
+            puts  "  - #{service.description}"
+          end
+        end
+        abort unless yes?("Are you sure?")
+      end
+
       Nagip::Runner.run do |backend, nagios_server, services|
         services.each do |service|
           opts = {path: (nagios_server.fetch(:command_file) || command_file), host_name: service.hostname, service_description: service.description}
@@ -51,6 +63,7 @@ module Nagip::CLI
           backend.execute command, command_arg
         end
       end
+      puts "Done"
     end
 
   end

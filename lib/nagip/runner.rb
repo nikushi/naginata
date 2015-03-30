@@ -17,6 +17,15 @@ module Nagip
       end
     end
 
+    def self.run_locally(&block)
+      nagios_servers = Configuration.env.filter(Configuration.env.nagios_servers)
+      services = Configuration.env.filter_service(Configuration.env.services)
+      nagios_servers.each do  |nagios_server|
+        svcs = Configuration::Filter.new(:nagios_server, nagios_server).filter_service(services)
+        yield nagios_server, svcs
+      end
+    end
+
     private
 
     def self.run_backend(nagios_servers, options = {}, &block)
