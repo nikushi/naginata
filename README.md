@@ -1,5 +1,7 @@
 # Nagip
 
+**Nagip is now under development to release first version, so DO NOT USE in production**
+
 Nagip is multi nagios server control tool. It executes nagis external commands or read status file on remote nagios servers from single workstation host over ssh connection.
 
 Nagip includes `nagip` command executable. `nagip` command can be used to:
