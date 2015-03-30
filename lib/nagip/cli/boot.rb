@@ -47,9 +47,11 @@ module Nagip::CLI
       if !options[:force]
         puts "Following notifications will be #{options[:enable] ? 'enabled' : 'disabled'}"
         Nagip::Runner.run_locally do |nagios_server, services|
-          puts nagios_server.hostname
-          services.each do |service|
-            puts  "  - #{service.description}"
+          services.group_by{ |s| s.hostname }.each do |hostname, svcs|
+            puts hostname
+            svcs.each do |service|
+              puts  "  - #{service.description}"
+            end
           end
         end
         abort unless yes?("Are you sure?")
