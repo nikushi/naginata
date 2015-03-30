@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'nagip/configuration/nagios_server'
 
 module Nagip
   class Configuration

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'nagip/configuration'
 
 describe Nagip::Configuration do
   let(:config) { described_class.new }

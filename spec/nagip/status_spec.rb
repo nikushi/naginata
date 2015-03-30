@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'nagip/status'
 
 describe Nagip::Status do
   let(:status_dat_raw) { File.read(File.join(File.dirname(__FILE__), '../support/status.dat')) }
