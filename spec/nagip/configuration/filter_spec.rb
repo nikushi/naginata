@@ -1,4 +1,4 @@
-require 'nagip/configuration/filter'
+require 'spec_helper'
 
 module Nagip
   class Configuration

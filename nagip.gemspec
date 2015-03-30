@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'sshkit', '~> 1.7'
   spec.add_dependency 'thor'
-  spec.add_dependency 'nagios_parser', '~> 1.3.0'
+  spec.add_dependency 'nagios_analyzer', '~> 0.0.5'
   spec.add_development_dependency "bundler", "~> 1.9"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3"

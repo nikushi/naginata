@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'nagip/configuration/service'
 
 module Nagip
   class Configuration

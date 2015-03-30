@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'nagip/command/external_command'
 
 module Nagip::Command
 

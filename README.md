@@ -45,15 +45,6 @@ nagios 'foo@nagios1.example.com'
 nagios 'bar@nagios2.example.com'
 nagios 'baz@nagios3.example.com'
 
-# Define service objects within each nagios server manually like follows.
-# This DSL may be removed.
-host 'myrouter01', services: ['cpu', 'memory'], on: 'nagios1'
-host 'myrouter02', services: ['cpu', 'memory'], on: 'nagios1'
-host 'myrouter03', services: ['cpu', 'memory'], on: 'nagios1'
-host 'web01', services: ['cpu', 'loadavg'], on: 'nagios2'
-host 'db01', services: ['cpu', 'loadavg'], on: 'nagios2'
-host 'memcached01', services: ['cpu', 'diskusage'], on: 'nagios2'
-
 # nagios server global options 
 set :nagios_server_options, {
   command_file: '/usr/local/nagios/var/rw/nagios.cmd',

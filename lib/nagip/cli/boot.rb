@@ -1,28 +1,16 @@
-require 'thor'
 require 'nagip/loader' # Load config
 require 'nagip/runner'
 require 'nagip/command/external_command'
+require 'nagip/cli/base'
+require 'nagip/cli/status'
+require 'nagip/configuration'
 
-module Nagip
-  class CLI < Thor
-    class_option :nagios, desc: "Filter hosts by nagios server names", type: :array
-    class_option :dry_run, aliases: "-n", type: :boolean
-    class_option :verbose, aliases: "-v", type: :boolean
-    class_option :debug, type: :boolean
+module Nagip::CLI
+  class Boot < Base
 
-    def initialize(args = [], opts = [], config = {})
-      super(args, opts, config)
-
-      if options[:debug]
-        Configuration.env.set(:log_level, :debug)
-      elsif options[:verbose]
-        Configuration.env.set(:log_level, :info)
-      end
-
-      if options[:nagios]
-        Configuration.env.add_filter(:nagios_server, options[:nagios])
-      end
-    end
+    # Sub commands
+    desc "status COMMANDS", "commands for host and service status"
+    subcommand "status", ::Nagip::CLI::Status
 
     desc 'notification [hostpattern ..]', 'control notification'
     method_option :enable, aliases: "-e", desc: "Enable notification", type: :boolean, default: false
@@ -30,8 +18,6 @@ module Nagip
     method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean, default: false
     def notification(*patterns)
-      configure_backend
-
       if !options[:enable] and !options[:disable]
         abort "--enable or --disable options is required"
       end
@@ -39,12 +25,12 @@ module Nagip
         abort "Both --enable and --disable options can not be set"
       end
       if options[:all_hosts]
-        Configuration.env.add_filter(:host, :all)
+        ::Nagip::Configuration.env.add_filter(:host, :all)
       else
-        Configuration.env.add_filter(:host, patterns)
+        ::Nagip::Configuration.env.add_filter(:host, patterns)
       end
       if options[:services]
-        Configuration.env.add_filter(:service, options[:services])
+        ::Nagip::Configuration.env.add_filter(:service, options[:services])
       end
 
       if options[:enable]
@@ -55,7 +41,7 @@ module Nagip
         abort "not supported"
       end
 
-      command_file = Configuration.env.fetch(:nagios_server_options)[:command_file]
+      command_file = ::Nagip::Configuration.env.fetch(:nagios_server_options)[:command_file]
 
       Nagip::Runner.run do |backend, nagios_server, services|
         services.each do |service|
@@ -65,18 +51,6 @@ module Nagip
           backend.execute command, command_arg
         end
       end
-    end
-
-    no_tasks do
-
-      def configure_backend
-        if options[:dry_run]
-          require 'sshkit/backends/printer'
-          Configuration.env.set(:sshkit_backend, SSHKit::Backend::Printer)
-        end
-        Nagip::Configuration.env.configure_backend
-      end
-
     end
 
   end
