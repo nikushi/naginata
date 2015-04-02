@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in nagip.gemspec
+# Specify your gem's dependencies in naginata.gemspec
 gemspec

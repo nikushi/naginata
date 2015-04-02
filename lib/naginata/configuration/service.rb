@@ -1,4 +1,4 @@
-module Nagip
+module Naginata
   class Configuration
     class Service
       attr_reader :description, :hostname, :nagios

@@ -1,8 +1,8 @@
-require 'nagip/configuration'
-require 'nagip/configuration/filter'
+require 'naginata/configuration'
+require 'naginata/configuration/filter'
 require 'sshkit/coordinator'
 
-module Nagip
+module Naginata
   class Runner
     def self.run(&block)
       nagios_servers = Configuration.env.filter(Configuration.env.nagios_servers)

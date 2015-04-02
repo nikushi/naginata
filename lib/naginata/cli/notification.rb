@@ -1,9 +1,9 @@
-require 'nagip'
-require 'nagip/command/external_command'
-require 'nagip/configuration'
-require 'nagip/runner'
+require 'naginata'
+require 'naginata/command/external_command'
+require 'naginata/configuration'
+require 'naginata/runner'
 
-module Nagip
+module Naginata
   class CLI::Notification
 
     def initialize(options)
@@ -19,32 +19,32 @@ module Nagip
       end
 
       if @options[:all_hosts]
-        ::Nagip::Configuration.env.add_filter(:host, :all)
+        ::Naginata::Configuration.env.add_filter(:host, :all)
       elsif @options[:patterns].empty?
         abort "At least one hostpattern must be given or use --all-hosts option"
       else
-        ::Nagip::Configuration.env.add_filter(:host, @options[:patterns])
+        ::Naginata::Configuration.env.add_filter(:host, @options[:patterns])
       end
       if @options[:services]
-        ::Nagip::Configuration.env.add_filter(:service, @options[:services])
+        ::Naginata::Configuration.env.add_filter(:service, @options[:services])
       end
 
-      command_file = ::Nagip::Configuration.env.fetch(:nagios_server_options)[:command_file]
+      command_file = ::Naginata::Configuration.env.fetch(:nagios_server_options)[:command_file]
 
       if !@options[:force]
-        Nagip.ui.info "Following notifications will be #{@options[:enable] ? 'enabled' : 'disabled'}", true
-        Nagip::Runner.run_locally do |nagios_server, services|
+        Naginata.ui.info "Following notifications will be #{@options[:enable] ? 'enabled' : 'disabled'}", true
+        Naginata::Runner.run_locally do |nagios_server, services|
           services.group_by{ |s| s.hostname }.each do |hostname, svcs|
             puts hostname
             svcs.each do |service|
-              Nagip.ui.info "  - #{service.description}", true
+              Naginata.ui.info "  - #{service.description}", true
             end
           end
         end
-        abort unless Nagip.ui.yes?("Are you sure? [y|N]")
+        abort unless Naginata.ui.yes?("Are you sure? [y|N]")
       end
 
-      Nagip::Runner.run do |backend, nagios_server, services|
+      Naginata::Runner.run do |backend, nagios_server, services|
         path = nagios_server.fetch(:command_file) || command_file
 
         services.each do |service|
@@ -52,12 +52,12 @@ module Nagip
           opts.merge!(service_description: service.description) if service.description != :ping
           action = @options[:enable] ? 'enable' : 'disable'
           host_or_svc = service.description == :ping ? 'host' : 'svc'
-          command_arg = Nagip::Command::ExternalCommand.send("#{action}_#{host_or_svc}_notifications".to_sym, opts).split(/\s+/, 2)
+          command_arg = Naginata::Command::ExternalCommand.send("#{action}_#{host_or_svc}_notifications".to_sym, opts).split(/\s+/, 2)
           command = command_arg.shift.to_sym
           backend.execute command, command_arg
         end
       end
-      Nagip.ui.info "Done", true
+      Naginata.ui.info "Done", true
     end
 
   end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Nagip::Status do
+describe Naginata::Status do
   let(:status_dat_raw) { File.read(File.join(File.dirname(__FILE__), '../support/status.dat')) }
 
   describe '#save' do
@@ -12,7 +12,7 @@ describe Nagip::Status do
 
     context '@status is present' do
       let(:context) { described_class.build(status_dat_raw, 'localhost') }
-      let(:tempfile) { Tempfile.new('nagip_save') }
+      let(:tempfile) { Tempfile.new('naginata_save') }
       before {
         allow(context).to receive(:path).and_return tempfile.path
         context.purge_cache
@@ -34,7 +34,7 @@ describe Nagip::Status do
   describe '#purge_cache' do
 
     let(:context) { described_class.build(status_dat_raw, 'localhost') }
-    let(:tempfile) { Tempfile.new('nagip_purge_cache') }
+    let(:tempfile) { Tempfile.new('naginata_purge_cache') }
     before {
       allow(context).to receive(:path).and_return tempfile.path
       context.purge_cache
@@ -80,26 +80,26 @@ describe Nagip::Status do
       before {
         allow(ENV).to receive(:[]).with('HOME').and_return '/home/nikushi'
         allow(Dir).to receive(:exist?).with('/home/nikushi').and_return true
-        expect(FileUtils).to receive(:mkdir_p).and_return '/home/nikushi/.nagip/cache/status'
+        expect(FileUtils).to receive(:mkdir_p).and_return '/home/nikushi/.naginata/cache/status'
       }
-      it { should eq "/home/nikushi/.nagip/cache/status" }
+      it { should eq "/home/nikushi/.naginata/cache/status" }
     end
 
     context "home directory is set in ENV but it does not exist" do
       before {
         allow(ENV).to receive(:[]).with('HOME').and_return '/home/nikushi'
         allow(Dir).to receive(:exist?).with('/home/nikushi').and_return false
-        expect(FileUtils).to receive(:mkdir_p).with('/path/.nagip/cache/status')
+        expect(FileUtils).to receive(:mkdir_p).with('/path/.naginata/cache/status')
       }
-      it { should eq "/path/.nagip/cache/status" }
+      it { should eq "/path/.naginata/cache/status" }
     end
 
     context "home directory is not set in ENV" do
       before {
         allow(ENV).to receive(:[]).with('HOME').and_return nil
-        expect(FileUtils).to receive(:mkdir_p).with('/path/.nagip/cache/status')
+        expect(FileUtils).to receive(:mkdir_p).with('/path/.naginata/cache/status')
       }
-      it { should eq "/path/.nagip/cache/status" }
+      it { should eq "/path/.naginata/cache/status" }
     end
   end
   

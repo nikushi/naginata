@@ -1,4 +1,4 @@
-module Nagip::UI
+module Naginata::UI
   describe Shell do
     describe 'initialize' do
       subject { described_class.new }

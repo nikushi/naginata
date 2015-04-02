@@ -1,6 +1,6 @@
 require 'sshkit'
 
-module Nagip
+module Naginata
   class Configuration
     class NagiosServer < SSHKit::Host
       extend Forwardable

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Nagip::Command
+module Naginata::Command
 
   describe ExternalCommand do
 

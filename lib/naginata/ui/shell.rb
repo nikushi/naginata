@@ -1,6 +1,6 @@
 require 'thor/base'
 
-module Nagip
+module Naginata
   module UI
     class Shell
       LEVELS = %w(error warn info debug)

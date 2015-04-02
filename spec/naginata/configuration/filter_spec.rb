@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Nagip
+module Naginata
   class Configuration
     describe Filter do
       let(:available_nagios_servers) { [

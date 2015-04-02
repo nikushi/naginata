@@ -1,6 +1,6 @@
-require 'nagip/ui/shell'
+require 'naginata/ui/shell'
 
-module Nagip
+module Naginata
   module UI
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Nagip
+module Naginata
   class Configuration
     describe Service do
       let(:service) { described_class.new(description, host: hostname, on: nagios) }

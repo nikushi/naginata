@@ -2,7 +2,7 @@ require_relative 'configuration/filter'
 require_relative 'configuration/nagios_server'
 require_relative 'configuration/service'
 
-module Nagip
+module Naginata
   class Configuration
 
     def initialize(config = nil)

@@ -2,7 +2,7 @@ require 'nagios_analyzer'
 require 'forwardable'
 require 'tempfile'
 
-module Nagip
+module Naginata
   class Status
     extend Forwardable
     def_delegators :@status, :service_items, :host_items, :items, :service_problems, :host_problems, :scopes
@@ -10,7 +10,7 @@ module Nagip
 
     # Write status.dat into local disk
     #
-    # @return [Nagip::Status] return self
+    # @return [Naginata::Status] return self
     # @return [false] if @status is nil
     def save
       return false if status.nil?
@@ -39,14 +39,14 @@ module Nagip
     #
     # @param [String] string raw status.dat text
     # @param [String] nagios_server_hostname hostname to identify status.data data
-    # @return [Nagip::Status]
+    # @return [Naginata::Status]
     def self.build(string, nagios_server_hostname)
       instance = new
       instance.hostname = nagios_server_hostname
 
       # @Note NagiosAnalizer::Status.new requires filename, so here
       # needs to write text data into tempfile.
-      Tempfile.open(["nagip-#{nagios_server_hostname}", ".status.dat"]) do |temp|
+      Tempfile.open(["naginata-#{nagios_server_hostname}", ".status.dat"]) do |temp|
         temp.sync = true
         temp.write string
         instance.status = ::NagiosAnalyzer::Status.new(temp.path, include_ok: true)
@@ -60,14 +60,14 @@ module Nagip
     # @return [String] directory path for status.dat caching
     def self.cache_dir
       dir = (ENV['HOME'] && Dir.exist?(ENV['HOME'])) ? ENV['HOME'] : Dir.pwd
-      dir = File.join(dir, '.nagip/cache/status')
+      dir = File.join(dir, '.naginata/cache/status')
       FileUtils.mkdir_p dir
       return dir
     end
 
     # Find a instance from cache by nagios server hostname
     #
-    # @return [Nagip::Status]
+    # @return [Naginata::Status]
     def self.find(nagios_server_hostname)
       instance = new
       instance.hostname = nagios_server_hostname

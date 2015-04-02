@@ -1,4 +1,4 @@
-module Nagip::Command
+module Naginata::Command
 
   class ExternalCommand
 

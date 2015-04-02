@@ -1,8 +1,8 @@
 require 'thor'
-require 'nagip/configuration'
-require 'nagip/loader'
+require 'naginata/configuration'
+require 'naginata/loader'
 
-module Nagip
+module Naginata
   class CLI < Thor
     class_option :nagios, desc: "Filter hosts by nagios server names", type: :array
     class_option :dry_run, aliases: "-n", type: :boolean
@@ -15,16 +15,16 @@ module Nagip
       Loader.load_configuration
 
       if options[:debug]
-        ::Nagip::Configuration.env.set(:log_level, :debug)
+        ::Naginata::Configuration.env.set(:log_level, :debug)
       elsif options[:verbose]
-        ::Nagip::Configuration.env.set(:log_level, :info)
+        ::Naginata::Configuration.env.set(:log_level, :info)
       end
 
       # @Note This has a problem, in nap CLI::Base class is initialied multiple
       # time,  below add same filter every time. This should be fixed but not
       # critical.
       if options[:nagios]
-        ::Nagip::Configuration.env.add_filter(:nagios_server, options[:nagios])
+        ::Naginata::Configuration.env.add_filter(:nagios_server, options[:nagios])
       end
 
       configure_backend
@@ -39,13 +39,13 @@ module Nagip
     method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean, default: false
     def notification(*patterns)
-      require 'nagip/cli/notification'
+      require 'naginata/cli/notification'
       CLI::Notification.new(options.merge(patterns: patterns)).run
     end
 
     desc 'fetch', 'Download remote status.dat and create cache on local'
     def fetch
-      require 'nagip/cli/fetch'
+      require 'naginata/cli/fetch'
       CLI::Fetch.new.run
     end
 
@@ -54,9 +54,9 @@ module Nagip
       def configure_backend
         if options[:dry_run]
           require 'sshkit/backends/printer'
-          ::Nagip::Configuration.env.set(:sshkit_backend, SSHKit::Backend::Printer)
+          ::Naginata::Configuration.env.set(:sshkit_backend, SSHKit::Backend::Printer)
         end
-        ::Nagip::Configuration.env.configure_backend
+        ::Naginata::Configuration.env.configure_backend
       end
 
     end

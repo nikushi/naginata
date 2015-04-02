@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'nagip/version'
+require 'naginata/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "nagip"
-  spec.version       = Nagip::VERSION
+  spec.name          = "naginata"
+  spec.version       = Naginata::VERSION
   spec.authors       = ["Nobuhiro Nikushi"]
   spec.email         = ["deneb.ge@gmail.com"]
 

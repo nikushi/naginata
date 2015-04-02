@@ -1,6 +1,6 @@
-require 'nagip/configuration'
+require 'naginata/configuration'
 
-module Nagip
+module Naginata
   module DSL
 
     def nagios_server(name)

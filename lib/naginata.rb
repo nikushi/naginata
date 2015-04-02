@@ -1,14 +1,14 @@
-require "nagip/command/external_command"
-require "nagip/configuration"
-require "nagip/configuration/filter"
-require "nagip/configuration/nagios_server"
-require "nagip/configuration/service"
-require "nagip/runner"
-require "nagip/status"
-require "nagip/ui"
-require "nagip/version"
+require "naginata/command/external_command"
+require "naginata/configuration"
+require "naginata/configuration/filter"
+require "naginata/configuration/nagios_server"
+require "naginata/configuration/service"
+require "naginata/runner"
+require "naginata/status"
+require "naginata/ui"
+require "naginata/version"
 
-module Nagip
+module Naginata
   class << self
     def ui
       @ui ||= UI::Shell.new

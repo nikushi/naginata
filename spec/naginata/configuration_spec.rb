@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Nagip::Configuration do
+describe Naginata::Configuration do
   let(:config) { described_class.new }
 
   describe ".new" do
@@ -74,7 +74,7 @@ describe Nagip::Configuration do
   describe '#nagios_servers' do
     subject { config.nagios_servers }
     before {
-      expect(Nagip::Configuration::NagiosServer).to receive(:new) { 'mock' }
+      expect(Naginata::Configuration::NagiosServer).to receive(:new) { 'mock' }
       config.nagios_server('name1')
     }
     it 'returns all nagios servers' do
@@ -96,7 +96,7 @@ describe Nagip::Configuration do
 
       context 'call with host and on: option' do
         before {
-          expect(Nagip::Configuration::Host).to receive(:new).with(host, on: nagios) { stub }
+          expect(Naginata::Configuration::Host).to receive(:new).with(host, on: nagios) { stub }
           config.host(host, on: nagios)
         }
         it { expect(subject.count).to eq 1 }
@@ -106,9 +106,9 @@ describe Nagip::Configuration do
       context 'call with host and on: and services: options' do
         let(:services) { ['cpu', 'mem', 'loadavg'] }
         before {
-          expect(Nagip::Configuration::Host).to receive(:new).with(host, on: nagios) { stub }
+          expect(Naginata::Configuration::Host).to receive(:new).with(host, on: nagios) { stub }
           services.each do |s|
-            expect(Nagip::Configuration::Service).to receive(:new).with(s, host: host, on: nagios).once { stub }
+            expect(Naginata::Configuration::Service).to receive(:new).with(s, host: host, on: nagios).once { stub }
           end
           config.host(host, on: nagios, services: services)
         }

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Nagip
+module Naginata
   class Configuration
     describe NagiosServer do
       let(:server) { described_class.new('root@hostname:1234') }

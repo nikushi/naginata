@@ -1,7 +1,7 @@
-require 'nagip/configuration'
-require 'nagip/configuration/service'
+require 'naginata/configuration'
+require 'naginata/configuration/service'
 
-module Nagip
+module Naginata
   class Configuration
     class Filter
       def initialize type, values = nil
