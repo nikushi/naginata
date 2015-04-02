@@ -1,3 +1,4 @@
+require 'nagip'
 require 'nagip/command/external_command'
 require 'nagip/configuration'
 require 'nagip/runner'
@@ -11,10 +12,10 @@ module Nagip
 
     def run
       if !@options[:enable] and !@options[:disable]
-        abort "Either --enable or --disable @options is required"
+        abort "Either --enable or --disable options is required"
       end
       if @options[:enable] and @options[:disable]
-        abort "Both --enable and --disable @options can not be given"
+        abort "Both --enable and --disable options can not be given"
       end
 
       if @options[:all_hosts]
@@ -31,16 +32,16 @@ module Nagip
       command_file = ::Nagip::Configuration.env.fetch(:nagios_server_options)[:command_file]
 
       if !@options[:force]
-        puts "Following notifications will be #{@options[:enable] ? 'enabled' : 'disabled'}"
+        Nagip.ui.info "Following notifications will be #{@options[:enable] ? 'enabled' : 'disabled'}", true
         Nagip::Runner.run_locally do |nagios_server, services|
           services.group_by{ |s| s.hostname }.each do |hostname, svcs|
             puts hostname
             svcs.each do |service|
-              puts  "  - #{service.description}"
+              Nagip.ui.info "  - #{service.description}", true
             end
           end
         end
-        abort unless yes?("Are you sure?")
+        abort unless Nagip.ui.yes?("Are you sure? [y|N]")
       end
 
       Nagip::Runner.run do |backend, nagios_server, services|
@@ -56,7 +57,7 @@ module Nagip
           backend.execute command, command_arg
         end
       end
-      puts "Done"
+      Nagip.ui.info "Done", true
     end
 
   end
