@@ -1,7 +1,5 @@
 # Naginata
 
-**Naginata is now under development to release first version, so DO NOT USE in production**
-
 Naginata is multi nagios server control tool. If you have multiple nagios servers and want to control them from single workstation host by CLI over ssh connection, Naginata is good for you.
 
 Naginata includes `naginata` command executable. `naginata` command can be done by just single command execution from workstation host.
