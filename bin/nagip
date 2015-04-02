@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
 $:.unshift File.expand_path("../../lib", __FILE__)
-require 'nagip/cli/boot'
+require 'nagip/cli'
 
-Nagip::CLI::Boot.start
+Nagip::CLI.start

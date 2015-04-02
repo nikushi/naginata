@@ -1,52 +1,47 @@
-require 'nagip/cli/base'
+require 'nagip'
 require 'nagip/command/external_command'
 require 'nagip/configuration'
 require 'nagip/runner'
 
-module Nagip::CLI
-  class Notification < Base
+module Nagip
+  class CLI::Notification
 
-    desc 'notification [hostpattern ..]', 'Enable or disable host and service notifications'
-    method_option :enable, aliases: "-e", desc: "Enable notification", type: :boolean, default: false
-    method_option :disable, aliases: "-d", desc: "Disable notification", type: :boolean, default: false
-    method_option :force, aliases: "-f", desc: "Run without prompting for confirmation", type: :boolean, default: false
-    method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
-    method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean, default: false
-    def enable_or_disable(*patterns)
-      if !options[:enable] and !options[:disable]
-        help(:enable_or_disable)
+    def initialize(options)
+      @options = options
+    end
+
+    def run
+      if !@options[:enable] and !@options[:disable]
         abort "Either --enable or --disable options is required"
       end
-      if options[:enable] and options[:disable]
-        help(:enable_or_disable)
+      if @options[:enable] and @options[:disable]
         abort "Both --enable and --disable options can not be given"
       end
 
-      if options[:all_hosts]
+      if @options[:all_hosts]
         ::Nagip::Configuration.env.add_filter(:host, :all)
-      elsif patterns.empty?
-        help(:enable_or_disable)
+      elsif @options[:patterns].empty?
         abort "At least one hostpattern must be given or use --all-hosts option"
       else
-        ::Nagip::Configuration.env.add_filter(:host, patterns)
+        ::Nagip::Configuration.env.add_filter(:host, @options[:patterns])
       end
-      if options[:services]
-        ::Nagip::Configuration.env.add_filter(:service, options[:services])
+      if @options[:services]
+        ::Nagip::Configuration.env.add_filter(:service, @options[:services])
       end
 
       command_file = ::Nagip::Configuration.env.fetch(:nagios_server_options)[:command_file]
 
-      if !options[:force]
-        puts "Following notifications will be #{options[:enable] ? 'enabled' : 'disabled'}"
+      if !@options[:force]
+        Nagip.ui.info "Following notifications will be #{@options[:enable] ? 'enabled' : 'disabled'}", true
         Nagip::Runner.run_locally do |nagios_server, services|
           services.group_by{ |s| s.hostname }.each do |hostname, svcs|
             puts hostname
             svcs.each do |service|
-              puts  "  - #{service.description}"
+              Nagip.ui.info "  - #{service.description}", true
             end
           end
         end
-        abort unless yes?("Are you sure?")
+        abort unless Nagip.ui.yes?("Are you sure? [y|N]")
       end
 
       Nagip::Runner.run do |backend, nagios_server, services|
@@ -55,14 +50,14 @@ module Nagip::CLI
         services.each do |service|
           opts = {path: (nagios_server.fetch(:command_file) || command_file), host_name: service.hostname}
           opts.merge!(service_description: service.description) if service.description != :ping
-          action = options[:enable] ? 'enable' : 'disable'
+          action = @options[:enable] ? 'enable' : 'disable'
           host_or_svc = service.description == :ping ? 'host' : 'svc'
           command_arg = Nagip::Command::ExternalCommand.send("#{action}_#{host_or_svc}_notifications".to_sym, opts).split(/\s+/, 2)
           command = command_arg.shift.to_sym
           backend.execute command, command_arg
         end
       end
-      puts "Done"
+      Nagip.ui.info "Done", true
     end
 
   end
