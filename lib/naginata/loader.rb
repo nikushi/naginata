@@ -9,7 +9,8 @@ module Naginata
 
       def load_configuration
         instance_eval File.read(File.join(File.dirname(__FILE__), 'defaults.rb'))
-        instance_eval File.read 'Naginatafile'
+        naginatafile_path = find_naginatafile
+        instance_eval File.read naginatafile_path
       end
 
       def load_remote_objects
@@ -31,6 +32,17 @@ module Naginata
           end
         end
 
+      end
+
+      private
+
+      def find_naginatafile
+        naginatafile_path = File.expand_path('Naginatafile')
+        if File.file?(naginatafile_path)
+          return naginatafile_path
+        else
+          raise NaginatafileNotFound, 'Could not locate Naginatafile'
+        end
       end
 
     end

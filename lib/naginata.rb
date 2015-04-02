@@ -9,6 +9,9 @@ require "naginata/ui"
 require "naginata/version"
 
 module Naginata
+
+  class NaginatafileNotFound < StandardError; end
+
   class << self
     def ui
       @ui ||= UI::Shell.new
