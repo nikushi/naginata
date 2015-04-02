@@ -1,8 +1,9 @@
 require 'thor'
 require 'nagip/configuration'
+require 'nagip/loader'
 
-module Nagip::CLI
-  class Base < Thor
+module Nagip
+  class CLI < Thor
     class_option :nagios, desc: "Filter hosts by nagios server names", type: :array
     class_option :dry_run, aliases: "-n", type: :boolean
     class_option :verbose, aliases: "-v", type: :boolean
@@ -10,6 +11,8 @@ module Nagip::CLI
 
     def initialize(args = [], opts = [], config = {})
       super(args, opts, config)
+
+      Loader.load_configuration
 
       if options[:debug]
         ::Nagip::Configuration.env.set(:log_level, :debug)
@@ -25,6 +28,25 @@ module Nagip::CLI
       end
 
       configure_backend
+
+      Loader.load_remote_objects
+    end
+
+    desc 'notification [hostpattern ..]', 'Control notification'
+    method_option :enable, aliases: "-e", desc: "Enable notification", type: :boolean, default: false
+    method_option :disable, aliases: "-d", desc: "Disable notification", type: :boolean, default: false
+    method_option :force, aliases: "-f", desc: "Run without prompting for confirmation", type: :boolean, default: false
+    method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
+    method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean, default: false
+    def notification(*patterns)
+      require 'nagip/cli/notification'
+      CLI::Notification.new(options.merge(patterns: patterns)).run
+    end
+
+    desc 'fetch', 'Download remote status.dat and create cache on local'
+    def fetch
+      require 'nagip/cli/fetch'
+      CLI::Fetch.new.run
     end
 
     no_tasks do

@@ -7,20 +7,15 @@ module Nagip
     class << self
       include Nagip::DSL
 
-      def run
+      def load_configuration
         instance_eval File.read(File.join(File.dirname(__FILE__), 'defaults.rb'))
         instance_eval File.read 'Nagipfile'
-        load_remote_objects
       end
 
-      private
-
       def load_remote_objects
-        require 'nagip/cli/status'
-        require 'nagip/status'
-
+        require 'nagip/cli/fetch'
         # Refresh cached status.dat
-        CLI::Status.new.invoke(:fetch)
+        CLI::Fetch.new.run
 
         # Load status.dat
         #
@@ -42,4 +37,3 @@ module Nagip
   end
 end
 
-Nagip::Loader.run
