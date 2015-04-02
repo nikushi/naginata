@@ -1,16 +1,16 @@
-# Nagip
+# Naginata
 
-**Nagip is now under development to release first version, so DO NOT USE in production**
+**Naginata is now under development to release first version, so DO NOT USE in production**
 
-Nagip is multi nagios server control tool. If you have multiple nagios servers and want to control them from single workstation host by CLI over ssh connection, Nagip is good for you.
+Naginata is multi nagios server control tool. If you have multiple nagios servers and want to control them from single workstation host by CLI over ssh connection, Naginata is good for you.
 
-Nagip includes `nagip` command executable. `nagip` command can be done by just single command execution from workstation host.
+Naginata includes `naginata` command executable. `naginata` command can be done by just single command execution from workstation host.
 
 * Enable/Disable notifications of hosts and services.
 * Display current host and service status. (will be added)
 * and more
 
-If you already have nagios servers, it's easy to try out Nagip! It does not require to install ruby and Nagip on remote nagio servers.
+If you already have nagios servers, it's easy to try out Naginata! It does not require to install ruby and Naginata on remote nagio servers.
 
 ## Requirements
 
@@ -18,14 +18,14 @@ Set up a workstation host which can connect to nagios servers over ssh connectio
 
 ## Installation
 
-Install nagip on workstation host.
+Install naginata on workstation host.
 
-    $ gem install nagip
+    $ gem install naginata
 
 Or if you use bundler, add this line to your application's Gemfile:
 
 ```ruby
-gem 'nagip'
+gem 'naginata'
 ```
 
 And then execute:
@@ -35,7 +35,7 @@ And then execute:
 
 ## Configuration
 
-Nagipfile
+Naginatafile
 
 ```
 # Define nagios servers
@@ -64,25 +64,25 @@ set :ssh_options, {
 #### Enable(Disable) host and service notifications of server001
 
 ```
-$ nagip notification server001 -[e|d]
+$ naginata notification server001 -[e|d]
 ```
 
 #### Enable(Disable) host and specific service notifications of server001
 
 ```
-$ nagip notification server001 -s cpu -[e|d] 
+$ naginata notification server001 -s cpu -[e|d] 
 ```
 
 #### Enable(Disable) host and service notifications of all hosts
 
 ```
-$ nagip notification -a -[e|d] 
+$ naginata notification -a -[e|d] 
 ```
 
 #### Enable(Disable) specific service notifications of all hosts
 
 ```
-$ nagip notification -a -s cpu -[e|d] 
+$ naginata notification -a -s cpu -[e|d] 
 ```
 
 ### Display status (will be added)
@@ -90,19 +90,19 @@ $ nagip notification -a -s cpu -[e|d]
 #### Show server001's status
 
 ```
-$ nagip status server001
+$ naginata status server001
 ```
 
 #### Show all hosts' status
 
 ```
-$ nagip status -a
+$ naginata status -a
 ```
 
 #### Show all hosts' specific service status
 
 ```
-$ nagip status -a -s cpu
+$ naginata status -a -s cpu
 ```
 
 
@@ -113,20 +113,20 @@ $ nagip status -a -s cpu
 You can filter target host and servers scope with `--nagios=server1,..` option.
 
 ```
-$ nagip --nagios=nagios1.example.com,nagios2.example.com notification -e --all-hosts
+$ naginata --nagios=nagios1.example.com,nagios2.example.com notification -e --all-hosts
 ```
 
 #### Dry run mode
 
-nagip command with `-n` or `--dry-run` runs as dry run mode.
+naginata command with `-n` or `--dry-run` runs as dry run mode.
 
 #### Verbose output
 
-nagip command with `-v`
+naginata command with `-v`
 
 #### Debug output
 
-nagip command with `--debug`
+naginata command with `--debug`
 
 
 ## Development
@@ -137,7 +137,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/nagip/fork )
+1. Fork it ( https://github.com/[my-github-username]/naginata/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
