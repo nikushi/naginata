@@ -44,7 +44,7 @@ module Naginata
     end
 
     def load_remote_objects
-      Loader.load_remote_objects
+      Loader.load_remote_objects(@options)
     end
 
     def run

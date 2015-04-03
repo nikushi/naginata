@@ -13,10 +13,10 @@ module Naginata
         instance_eval File.read naginatafile_path
       end
 
-      def load_remote_objects
+      def load_remote_objects(fetch_options = {})
         require 'naginata/cli/fetch'
         # Refresh cached status.dat
-        CLI::Fetch.new.run
+        CLI::Fetch.new(fetch_options).run
 
         # Load status.dat
         #
