@@ -13,6 +13,12 @@ module Naginata
     #  super(args, opts, config)
     #end
 
+    desc 'init', 'Init generates a default Nagipfile into current directory'
+    def init
+      require 'naginata/cli/init'
+      CLI::Init.new(options).execute
+    end
+
     desc 'notification [hostpattern ..]', 'Control notification'
     method_option :enable, aliases: "-e", desc: "Enable notification", type: :boolean, default: false
     method_option :disable, aliases: "-d", desc: "Disable notification", type: :boolean, default: false
