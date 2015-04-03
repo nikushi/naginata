@@ -9,27 +9,14 @@ module Naginata
     class_option :verbose, aliases: "-v", type: :boolean
     class_option :debug, type: :boolean
 
-    def initialize(args = [], opts = [], config = {})
-      super(args, opts, config)
+    #def initialize(args = [], opts = [], config = {})
+    #  super(args, opts, config)
+    #end
 
-      Loader.load_configuration
-
-      if options[:debug]
-        ::Naginata::Configuration.env.set(:log_level, :debug)
-      elsif options[:verbose]
-        ::Naginata::Configuration.env.set(:log_level, :info)
-      end
-
-      # @Note This has a problem, in nap CLI::Base class is initialied multiple
-      # time,  below add same filter every time. This should be fixed but not
-      # critical.
-      if options[:nagios]
-        ::Naginata::Configuration.env.add_filter(:nagios_server, options[:nagios])
-      end
-
-      configure_backend
-
-      Loader.load_remote_objects
+    desc 'init', 'Init generates a default Nagipfile into current directory'
+    def init
+      require 'naginata/cli/init'
+      CLI::Init.new(options).execute
     end
 
     desc 'notification [hostpattern ..]', 'Control notification'
@@ -40,25 +27,13 @@ module Naginata
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean, default: false
     def notification(*patterns)
       require 'naginata/cli/notification'
-      CLI::Notification.new(options.merge(patterns: patterns)).run
+      CLI::Notification.new(options.merge(patterns: patterns)).execute
     end
 
     desc 'fetch', 'Download remote status.dat and create cache on local'
     def fetch
       require 'naginata/cli/fetch'
-      CLI::Fetch.new.run
-    end
-
-    no_tasks do
-
-      def configure_backend
-        if options[:dry_run]
-          require 'sshkit/backends/printer'
-          ::Naginata::Configuration.env.set(:sshkit_backend, SSHKit::Backend::Printer)
-        end
-        ::Naginata::Configuration.env.configure_backend
-      end
-
+      CLI::Fetch.new(options).execute
     end
 
   end

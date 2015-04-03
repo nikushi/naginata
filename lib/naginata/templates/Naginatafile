@@ -1,0 +1,37 @@
+# Nagios server definition
+# ========================
+# Defines nagios servers with multiple properties.
+
+# nagios_server 'nagios.tokyo.example.com', user: 'nagios'
+# nagios_server 'nagios.ny.example.com', user: 'nagios', port: '10022'
+# nagios_server 'admin@nagios.sf.example.com'
+# nagios_server 'admin@nagios.sha.example.com:10022'
+# nagios_server 'nagios.uk.example.com', keys: %w(/path/to/private_key)
+
+# Global Nagios Server Options
+# ============================
+# You can set global properties for all nagios servers here.
+# `run_command_as` is a user who execute external commands on a remote nagios
+# server. By default external commands are as the same user who is log-in.
+# This means naginata executes sudo -u `run_command_as sh -c ...` on remote
+# servers if `run_command_as` is set.
+
+# set :nagios_server_options, {
+#   command_file: '/var/spool/nagios/cmd/nagios.cmd',
+#   status_file: '/var/log/nagios/status.dat',
+#   run_command_as: 'nagios',
+# }
+
+#
+# Custom SSH Options
+# ==================
+# You may pass any option but keep in mind that net/ssh understands a
+# limited set of options, consult the Net::SSH documentation.
+# http://net-ssh.github.io/net-ssh/classes/Net/SSH.html#method-c-start
+#
+# Global options
+# --------------
+# set :ssh_options, {
+#   user: 'admin',
+#   keys: %w(/path/to/private_key),
+# }

@@ -1,13 +1,10 @@
+require 'naginata/cli/remote_abstract'
 require 'naginata/configuration'
 require 'naginata/status'
 require 'naginata/runner'
 
 module Naginata
-  class CLI::Fetch
-
-    def initialize(options = {})
-      @options = options
-    end
+  class CLI::Fetch < CLI::RemoteAbstract
 
     def run
       Naginata::Runner.run do |backend, nagios_server, services|
@@ -24,6 +21,10 @@ module Naginata
       end
 
     end
+
+    def load_remote_objects
+    end
+
   end
 end
  

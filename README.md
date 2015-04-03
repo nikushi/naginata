@@ -33,29 +33,32 @@ And then execute:
 
 ## Configuration
 
-Naginatafile
+Next, create a configuration file from the template. The below command creates _Naginatafile_ on the current working directory.
+
+    $ naginata init
+
+And then edit Naginatafile
 
 ```
 # Define nagios servers
-nagios 'foo@nagios1.example.com'
-nagios 'bar@nagios2.example.com'
-nagios 'baz@nagios3.example.com'
+nagios_server 'foo@nagios1.example.com'
+nagios_server 'bar@nagios2.example.com'
+nagios_server 'baz@nagios3.example.com'
 
-# nagios server global options 
+# Global nagios server options 
 set :nagios_server_options, {
   command_file: '/usr/local/nagios/var/rw/nagios.cmd',
   status_file: '/usr/local/nagios/var/status.cmd',
   run_command_as: 'nagios',
 }
 
-# Global options
+# Global SSH options
 set :ssh_options, {
   keys: %w(/home/nikushi/.ssh/id_rsa),
 }
 ```
 
 ## Usage
-
 
 ### Notification
 

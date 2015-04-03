@@ -1,14 +1,11 @@
 require 'naginata'
+require 'naginata/cli/remote_abstract'
 require 'naginata/command/external_command'
 require 'naginata/configuration'
 require 'naginata/runner'
 
 module Naginata
-  class CLI::Notification
-
-    def initialize(options)
-      @options = options
-    end
+  class CLI::Notification < CLI::RemoteAbstract
 
     def run
       if !@options[:enable] and !@options[:disable]
