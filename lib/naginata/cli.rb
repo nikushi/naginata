@@ -4,8 +4,6 @@ require 'naginata/loader'
 
 module Naginata
   class CLI < Thor
-    class_option :nagios, desc: "Filter hosts by nagios server names", type: :array
-    class_option :dry_run, aliases: "-n", type: :boolean
     class_option :verbose, aliases: "-v", type: :boolean
     class_option :debug, type: :boolean
 
@@ -20,16 +18,23 @@ module Naginata
     end
 
     desc 'notification [hostpattern ..]', 'Control notification'
-    method_option :enable, aliases: "-e", desc: "Enable notification", type: :boolean, default: false
-    method_option :disable, aliases: "-d", desc: "Disable notification", type: :boolean, default: false
-    method_option :force, aliases: "-f", desc: "Run without prompting for confirmation", type: :boolean, default: false
+    method_option :enable, aliases: "-e", desc: "Enable notification", type: :boolean
+    method_option :disable, aliases: "-d", desc: "Disable notification", type: :boolean
+    method_option :dry_run, aliases: "-n", type: :boolean
+    method_option :force, aliases: "-f", desc: "Run without prompting for confirmation", type: :boolean
+    method_option :nagios, desc: "Filter hosts by nagios server names", type: :array
     method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
-    method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean, default: false
+    method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
     def notification(*patterns)
+      if patterns.empty? and options.empty?
+        help(:notification)
+        exit(1)
+      end
       require 'naginata/cli/notification'
       CLI::Notification.new(options.merge(patterns: patterns)).execute
     end
 
+    method_option :nagios, desc: "Filter hosts by nagios server names", type: :array
     desc 'fetch', 'Download remote status.dat and create cache on local'
     def fetch
       require 'naginata/cli/fetch'
