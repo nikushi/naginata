@@ -34,6 +34,10 @@ module Naginata
         @shell.yes?(msg)
       end
 
+      def print_table(array, options = {})
+        @shell.print_table(array, options)
+      end
+
       private
 
       def tell_me(msg, color = nil, newline = nil)

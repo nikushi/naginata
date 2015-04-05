@@ -8,6 +8,8 @@ require "naginata/status"
 require "naginata/ui"
 require "naginata/version"
 
+require "nagios_analyzer/section_decorator"
+
 module Naginata
 
   class NaginatafileNotFound < StandardError; end
