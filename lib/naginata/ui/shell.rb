@@ -11,19 +11,19 @@ module Naginata
       end
 
       def info(msg, newline = nil)
-        @shell.say(msg, nil, newline) if level("info")
+        tell_me(msg, nil, newline) if level("info")
       end
 
       def warn(msg, newline = nil)
-        @shell.say(msg, :yellow, newline) if level("warn")
+        tell_me(msg, :yellow, newline) if level("warn")
       end
 
       def error(msg, newline = nil)
-        @shell.say(msg, :red, newline) if level("error")
+        tell_me(msg, :red, newline) if level("error")
       end
 
       def debug(msg, newline = nil)
-        @shell.say(msg, nil, newline) if level("debug")
+        tell_me(msg, nil, newline) if level("debug")
       end
 
       def level(name = nil)
@@ -32,6 +32,16 @@ module Naginata
 
       def yes?(msg)
         @shell.yes?(msg)
+      end
+
+      private
+
+      def tell_me(msg, color = nil, newline = nil)
+        if newline.nil?
+          @shell.say(msg, color)
+        else
+          @shell.say(msg, color, newline)
+        end
       end
 
     end

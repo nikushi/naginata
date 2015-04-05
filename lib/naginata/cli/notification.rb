@@ -29,12 +29,12 @@ module Naginata
       command_file = ::Naginata::Configuration.env.fetch(:nagios_server_options)[:command_file]
 
       if !@options[:force]
-        Naginata.ui.info "Following notifications will be #{@options[:enable] ? 'enabled' : 'disabled'}", true
+        Naginata.ui.info "Following notifications will be #{@options[:enable] ? 'enabled' : 'disabled'}"
         Naginata::Runner.run_locally do |nagios_server, services|
           services.group_by{ |s| s.hostname }.each do |hostname, svcs|
             puts hostname
             svcs.each do |service|
-              Naginata.ui.info "  - #{service.description}", true
+              Naginata.ui.info "  - #{service.description}"
             end
           end
         end
@@ -54,7 +54,7 @@ module Naginata
           backend.execute command, command_arg
         end
       end
-      Naginata.ui.info "Done", true
+      Naginata.ui.info "Done"
     end
 
   end
