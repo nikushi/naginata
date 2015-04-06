@@ -86,26 +86,73 @@ $ naginata notification -a -[e|d]
 $ naginata notification -a -s cpu -[e|d] 
 ```
 
-### Display status (will be added)
+### View service status
 
-#### Show server001's status
-
-```
-$ naginata status server001
-```
-
-#### Show all hosts' status
+#### View service status for all hosts
 
 ```
-$ naginata status -a
+$ naginata services -a
 ```
 
-#### Show all hosts' specific service status
+Output example:
 
 ```
-$ naginata status -a -s cpu
+$ naginata services -a
+NAGIOS   HOST                 SERVICE          STATUS   FLAGS  OUTPUT
+nagios0  localhost            HTTP             WARNING  AC,nt  HTTP WARNING: HTTP/1.1 403 Forbidden - 5152 bytes in 0.001 second response time
+nagios0  localhost            Current Load     OK       AC,NT  OK - load average: 0.00, 0.00, 0.00
+nagios0  localhost            PING             OK       AC,NT  PING OK - Packet loss = 0%, RTA = 0.04 ms
+nagios0  redis01.tokyo.local  Load             CRITICAL AC,NT  Too high load average 15
+nagios0  redis01.tokyo.local  PING             OK       ac,NT  PING OK - Packet loss = 0%, RTA = 0.04 ms
+nagios0  redis01.tokyo.local  SSH              OK       AC,NT  SSH OK - OpenSSH_5.3 (protocol 2.0)
+nagios0  web01.tokyo.local    Load             OK       AC,NT  OK - load average: 0.01, 0.00, 0.00
+nagios0  web01.tokyo.local    PING             OK       AC,NT  PING OK - Packet loss = 0%, RTA = 0.04 ms
+nagios0  web01.tokyo.local    SSH              OK       AC,NT  SSH OK - OpenSSH_5.3 (protocol 2.0)
+nagios1  redis01.osaka.local  Load             OK       AC,NT  OK - load average: 0.00, 0.00, 0.00
+nagios1  redis01.osaka.local  PING             OK       AC,NT  PING OK - Packet loss = 0%, RTA = 0.04 ms
+nagios1  redis01.osaka.local  SSH              OK       AC,NT  SSH OK - OpenSSH_5.3 (protocol 2.0)
+...
 ```
 
+
+#### View service status for specific hosts
+
+```
+$ naginata services web01.example.com db01.example.com
+```
+
+#### View service status filtering by services
+
+```
+$ naginata services -a -s PING,SWAP
+```
+
+### View host status
+
+#### View all host status
+
+```
+$ naginata hosts -a
+```
+
+Output example:
+
+```
+$ naginata hosts -a
+NAGIOS   HOST                 STATUS  FLAGS  OUTPUT
+nagios0  localhost            OK      AC,NT  PING OK - Packet loss = 0%, RTA = 0.01 ms
+nagios0  redis01.tokyo.local  OK      AC,NT  PING OK - Packet loss = 0%, RTA = 0.03 ms
+nagios0  web01.tokyo.local    OK      AC,NT  PING OK - Packet loss = 0%, RTA = 0.04 ms
+nagios1  localhost            OK      AC,NT  PING OK - Packet loss = 0%, RTA = 0.04 ms
+nagios1  redis01.osaka.local  OK      AC,NT  PING OK - Packet loss = 0%, RTA = 0.05 ms
+nagios1  web01.osaka.local    OK      AC,NT  PING OK - Packet loss = 0%, RTA = 0.04 ms
+```
+
+#### View host status for specific hosts
+
+```
+$ naginata hosts web01.example.com db01.example.com
+```
 
 ### Global Options
 
