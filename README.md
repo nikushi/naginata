@@ -62,28 +62,40 @@ set :ssh_options, {
 
 ### Notification
 
-#### Enable(Disable) host and service notifications of server001
+#### Enable(Disable) host and service notifications for specific host
 
 ```
 $ naginata notification server001 -[e|d]
 ```
 
-#### Enable(Disable) host and specific service notifications of server001
+#### Enable(Disable) host and specific service notifications for specific host
 
 ```
-$ naginata notification server001 -s cpu -[e|d] 
+$ naginata notification server001 -s cpu -[e|d]
 ```
 
-#### Enable(Disable) host and service notifications of all hosts
+#### Enable(Disable) host and service notifications for all hosts
 
 ```
 $ naginata notification -a -[e|d] 
 ```
 
-#### Enable(Disable) specific service notifications of all hosts
+#### With regular expression host filter
+
+```
+$ naginata notification '^web\d+.+.example.com$' -[e|d]
+```
+
+#### Enable(Disable) specific service notifications
 
 ```
 $ naginata notification -a -s cpu -[e|d] 
+```
+
+#### With regular expression service filters
+
+```
+$ naginata notification -a -[e|d] -s 'disk.+' -s 'https?'
 ```
 
 ### View service status (Experimental)
@@ -154,28 +166,26 @@ nagios1  web01.osaka.local    OK      AC,NT  PING OK - Packet loss = 0%, RTA = 0
 $ naginata hosts web01.example.com db01.example.com
 ```
 
+
+### Filtering by nagios servers
+
+You can limit target nagios server with `--nagios=server1,..` option.
+
+For example:
+
+```
+$ naginata notification -a --nagios=nagios1.example.com,nagios2.example.com -e
+```
+
 ### Global Options
-
-#### Filter by nagios servers
-
-You can filter target host and servers scope with `--nagios=server1,..` option.
-
-```
-$ naginata --nagios=nagios1.example.com,nagios2.example.com notification -e --all-hosts
-```
 
 #### Dry run mode
 
 naginata command with `-n` or `--dry-run` runs as dry run mode.
 
-#### Verbose output
-
-naginata command with `-v`
-
 #### Debug output
 
 naginata command with `--debug`
-
 
 ## Development
 
