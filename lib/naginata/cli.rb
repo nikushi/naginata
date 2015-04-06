@@ -41,6 +41,30 @@ module Naginata
       CLI::Fetch.new(options).execute
     end
 
+    desc 'hosts [hostpattern ..]', 'View host status'
+    method_option :nagios, desc: "Filter hosts by nagios server names", type: :array
+    method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
+    def hosts(*patterns)
+      if patterns.empty? and !options[:all_hosts]
+        help(:hosts)
+        exit(1)
+      end
+      require 'naginata/cli/hosts'
+      CLI::Hosts.new(options.merge(patterns: patterns)).execute
+    end
+
+    desc 'services [hostpattern ..]', 'View service status'
+    method_option :nagios, desc: "Filter hosts by nagios server names", type: :array
+    method_option :services, aliases: "-s", desc: "Filter by service description", type: :array
+    method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
+    def services(*patterns)
+      if patterns.empty? and !options[:all_hosts]
+        help(:services)
+        exit(1)
+      end
+      require 'naginata/cli/services'
+      CLI::Services.new(options.merge(patterns: patterns)).execute
+    end
   end
 end
  

@@ -1,12 +1,14 @@
 require 'nagios_analyzer'
 require 'forwardable'
 require 'tempfile'
+require 'naginata/status_decorator'
 
 module Naginata
   class Status
     extend Forwardable
     def_delegators :@status, :service_items, :host_items, :items, :service_problems, :host_problems, :scopes
     attr_accessor :status, :hostname
+    alias :nagios :hostname
 
     # Write status.dat into local disk
     #
@@ -33,6 +35,13 @@ module Naginata
     def path
       raise "@hostname must be set" if hostname.nil?
       @path ||= File.join(self.class.cache_dir, "#{hostname}.status.dat")
+    end
+
+    # Returns decorator instance
+    #
+    # @return [StatusDecorator]
+    def decorate
+      StatusDecorator.new(self)
     end
 
     # Create a new instance from raw status.dat string
