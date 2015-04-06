@@ -5,7 +5,7 @@ Naginata is multi nagios server control tool. If you have multiple nagios server
 Naginata includes `naginata` command executable. `naginata` command can be done by just single command execution from workstation host.
 
 * Enable/Disable notifications of hosts and services.
-* Display current host and service status. (will be added)
+* Display current host and service status.
 * and more
 
 If you already have nagios servers, it's easy to try out Naginata! It does not require to install ruby and Naginata on remote nagio servers.
