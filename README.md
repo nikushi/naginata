@@ -86,7 +86,7 @@ $ naginata notification -a -[e|d]
 $ naginata notification -a -s cpu -[e|d] 
 ```
 
-### View service status
+### View service status (Experimental)
 
 #### View service status for all hosts
 
@@ -127,7 +127,7 @@ $ naginata services web01.example.com db01.example.com
 $ naginata services -a -s PING,SWAP
 ```
 
-### View host status
+### View host status (Experimental)
 
 #### View all host status
 
