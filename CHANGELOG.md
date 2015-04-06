@@ -1,3 +1,9 @@
+### 0.1.3 - 2015/04/06
+
+Fixes:
+
+* Fix uninitialized constant Naginata (NameError)
+
 ### 0.1.2 - 2015/04/06
 
 Enhancement:
