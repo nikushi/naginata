@@ -35,3 +35,6 @@
 #   user: 'admin',
 #   keys: %w(/path/to/private_key),
 # }
+
+# Default value for :pty is false
+# set :pty, true
