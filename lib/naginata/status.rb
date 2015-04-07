@@ -41,7 +41,7 @@ module Naginata
     #
     # @return [StatusDecorator]
     def decorate
-      StatusDecorator.new(self)
+      @decorator ||= StatusDecorator.new(self)
     end
 
     # Create a new instance from raw status.dat string

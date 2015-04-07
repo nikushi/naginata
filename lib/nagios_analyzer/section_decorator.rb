@@ -4,7 +4,7 @@ module NagiosAnalyzer
   class Section
 
     def decorate
-      SectionDecorator.new(self)
+      @decorator ||= SectionDecorator.new(self)
     end
 
   end
