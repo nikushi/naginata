@@ -24,7 +24,7 @@ module Naginata
         }
         table.concat(status.decorate.hosts_table)
       end
-      Naginata.ui.print_table table
+      Naginata.ui.print_table(table, truncate: !@options[:wide])
     end
 
   end

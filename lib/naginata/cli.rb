@@ -44,6 +44,7 @@ module Naginata
     desc 'hosts [hostpattern ..]', 'View host status'
     method_option :nagios, desc: "Filter hosts by nagios server names", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
+    method_option :wide, aliases: "-w", desc: "Wide output", type: :boolean
     def hosts(*patterns)
       if patterns.empty? and !options[:all_hosts]
         help(:hosts)
@@ -57,6 +58,7 @@ module Naginata
     method_option :nagios, desc: "Filter hosts by nagios server names", type: :array
     method_option :services, aliases: "-s", desc: "Filter by service description", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
+    method_option :wide, aliases: "-w", desc: "Wide output", type: :boolean
     def services(*patterns)
       if patterns.empty? and !options[:all_hosts]
         help(:services)

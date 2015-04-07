@@ -47,6 +47,15 @@ describe 'naginata hosts' do
     end
   end
 
+  describe 'with --wide option' do
+    before { naginata :hosts, all_hosts: true, wide: true }
+    it "prints table" do
+      expect(exitstatus).to eq 0
+      expect(err).to eq ''
+      expect(out).to  match /^NAGIOS\s+HOST\s+STATUS\s+FLAGS\s+OUTPUT$/
+    end
+  end
+
   describe 'with --nagios option' do
     before { naginata :hosts, all_hosts: true, nagios: "nagios001,nagios002.example.com"}
     it "prints table" do

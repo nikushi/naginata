@@ -64,4 +64,13 @@ describe 'naginata services' do
     end
   end
 
+  describe 'with --wide option' do
+    before { naginata :services, all_hosts: true, wide: true}
+    it "prints table" do
+      expect(exitstatus).to eq 0
+      expect(err).to eq ''
+      expect(out).to  match /^NAGIOS\s+HOST\s+SERVICE\s+STATUS\s+FLAGS\s+OUTPUT$/
+    end
+  end
+
 end
