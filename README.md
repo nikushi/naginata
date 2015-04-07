@@ -111,7 +111,7 @@ Output example:
 ```
 $ naginata services -a
 NAGIOS   HOST                 SERVICE          STATUS   FLAGS  OUTPUT
-nagios0  localhost            HTTP             WARNING  AC,nt  HTTP WARNING: HTTP/1.1 403 Forbidden - 5152 bytes in 0.001 second response time
+nagios0  localhost            HTTP             WARNING  AC,nt  HTTP WARNING: HTTP/1.1 403 Forbidden - 5152 bytes ...
 nagios0  localhost            Current Load     OK       AC,NT  OK - load average: 0.00, 0.00, 0.00
 nagios0  localhost            PING             OK       AC,NT  PING OK - Packet loss = 0%, RTA = 0.04 ms
 nagios0  redis01.tokyo.local  Load             CRITICAL AC,NT  Too high load average 15
