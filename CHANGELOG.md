@@ -1,3 +1,10 @@
+### 0.1.4 - 2015/04/08
+
+CLI:
+
+* Add shorter aliases -N for --nagios option
+* Add -w option wide output for hosts and services view
+
 ### 0.1.3 - 2015/04/06
 
 Fixes:
