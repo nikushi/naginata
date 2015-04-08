@@ -18,13 +18,8 @@ module Naginata
         # Refresh cached status.dat
         CLI::Fetch.new(fetch_options).run
 
-        # Load status.dat
-        #
-        # @Note currently here reads all nagios servers' cache files. This
-        # means that users can not reduce nagios servers by --nagios= CLI 
-        # option. Below loop may be moved into initialization phase of CLI
-        # class.
-        Configuration.env.nagios_servers.each do |nagios_server|
+        nagios_servers = Configuration.env.filter(Configuration.env.nagios_servers)
+        nagios_servers.each do |nagios_server|
           status = ::Naginata::Status.find(nagios_server.hostname)
           status.service_items.group_by{ |section| section.host_name }.each do |host, sections|
             services = sections.map { |s| s.service_description }
