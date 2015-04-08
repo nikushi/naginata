@@ -167,9 +167,9 @@ $ naginata hosts web01.example.com db01.example.com
 ```
 
 
-### Filtering by nagios servers
+### Nagios server filter
 
-You can limit target nagios server with `--nagios=server1,..` option.
+You can filter targeted nagios servers with `--nagios=nagiosserver1,..` (or `-N=` shortly) option.
 
 For example:
 

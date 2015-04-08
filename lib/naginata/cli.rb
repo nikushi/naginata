@@ -22,7 +22,7 @@ module Naginata
     method_option :disable, aliases: "-d", desc: "Disable notification", type: :boolean
     method_option :dry_run, aliases: "-n", type: :boolean
     method_option :force, aliases: "-f", desc: "Run without prompting for confirmation", type: :boolean
-    method_option :nagios, desc: "Filter hosts by nagios server names", type: :array
+    method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
     method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
     def notification(*patterns)
@@ -34,7 +34,7 @@ module Naginata
       CLI::Notification.new(options.merge(patterns: patterns)).execute
     end
 
-    method_option :nagios, desc: "Filter hosts by nagios server names", type: :array
+    method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
     desc 'fetch', 'Download remote status.dat and create cache on local'
     def fetch
       require 'naginata/cli/fetch'
@@ -42,7 +42,7 @@ module Naginata
     end
 
     desc 'hosts [hostpattern ..]', 'View host status'
-    method_option :nagios, desc: "Filter hosts by nagios server names", type: :array
+    method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
     method_option :wide, aliases: "-w", desc: "Wide output", type: :boolean
     def hosts(*patterns)
@@ -55,7 +55,7 @@ module Naginata
     end
 
     desc 'services [hostpattern ..]', 'View service status'
-    method_option :nagios, desc: "Filter hosts by nagios server names", type: :array
+    method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
     method_option :services, aliases: "-s", desc: "Filter by service description", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
     method_option :wide, aliases: "-w", desc: "Wide output", type: :boolean
