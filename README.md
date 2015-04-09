@@ -12,7 +12,8 @@ If you already have nagios servers, it's easy to try out Naginata! It does not r
 
 ## Requirements
 
-Set up a workstation host which can connect to nagios servers over ssh connection. Currently supports only no passphrase remote login.
+* Ruby 1.9.3, 2.0.0, 2.1.x, 2.2.x
+* Nagios 3.x, 4.x
 
 ## Installation
 
@@ -54,6 +55,7 @@ set :nagios_server_options, {
 
 # Global SSH options
 set :ssh_options, {
+  # Currently Naginata only supports remote login with no passphrase.
   keys: %w(/home/nikushi/.ssh/id_rsa),
 }
 ```
