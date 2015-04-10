@@ -11,7 +11,9 @@ module Naginata
 
       run_backend(nagios_servers) do |nagios_server|
         svcs = Configuration::Filter.new(:nagios_server, nagios_server).filter_service(services)
-        as(user) do
+        if user
+          as(user) { yield self, nagios_server, svcs }
+        else
           yield self, nagios_server, svcs
         end
       end
