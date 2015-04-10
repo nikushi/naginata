@@ -11,10 +11,12 @@
 # Global Nagios Server Options
 # ============================
 # You can set global properties for all nagios servers here.
+#
 # `run_command_as` is a user who execute external commands on a remote nagios
 # server. By default external commands are as the same user who is log-in.
-# This means naginata executes sudo -u `run_command_as sh -c ...` on remote
-# servers if `run_command_as` is set.
+# If you want to change run user for external commands execution after login
+# to nagios servers, set a proper user name . This is usefull if a login user
+# does not have write or read permission to command_file or status_file.
 
 # set :nagios_server_options, {
 #   command_file: '/var/spool/nagios/cmd/nagios.cmd',

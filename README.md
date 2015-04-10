@@ -50,6 +50,10 @@ nagios_server 'baz@nagios3.example.com'
 set :nagios_server_options, {
   command_file: '/usr/local/nagios/var/rw/nagios.cmd',
   status_file: '/usr/local/nagios/var/status.cmd',
+  # If you want to change run user for external commands execution after login
+  # to nagios servers, uncomment below and set a proper user name. This is
+  # usefull if a login user does not have write or read permission to
+  # command_file or status_file.
   run_command_as: 'nagios',
 }
 
