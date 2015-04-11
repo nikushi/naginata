@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'naginata init' do
+describe 'naginata notification' do
   describe 'no argments and no options' do
     before { naginata :notification }
     it "returns help" do
