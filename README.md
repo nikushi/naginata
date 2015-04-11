@@ -104,6 +104,16 @@ $ naginata notification -a -s cpu -[e|d]
 $ naginata notification -a -[e|d] -s 'disk.+' -s 'https?'
 ```
 
+### Active Checks Control
+
+You can enable or disable active checks of hosts and services.
+
+```
+$ naginata activecheck [hostpattern...] [OPTIONS]
+```
+
+Optinos are same as `naginata notification`. See above examples.
+
 ### View service status (Experimental)
 
 #### View service status for all hosts

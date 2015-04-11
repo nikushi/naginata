@@ -34,6 +34,23 @@ module Naginata
       CLI::Notification.new(options.merge(patterns: patterns)).execute
     end
 
+    desc 'activecheck [hostpattern ..]', 'Control active checks'
+    method_option :enable, aliases: "-e", desc: "Enable active checks", type: :boolean
+    method_option :disable, aliases: "-d", desc: "Disable active checks", type: :boolean
+    method_option :dry_run, aliases: "-n", type: :boolean
+    method_option :force, aliases: "-f", desc: "Run without prompting for confirmation", type: :boolean
+    method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
+    method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
+    method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
+    def activecheck(*patterns)
+      if patterns.empty? and options.empty?
+        help(:activecheck)
+        exit(1)
+      end
+      require 'naginata/cli/active_check'
+      CLI::ActiveCheck.new(options.merge(patterns: patterns)).execute
+    end
+
     method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
     desc 'fetch', 'Download remote status.dat and create cache on local'
     def fetch
