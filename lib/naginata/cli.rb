@@ -11,6 +11,13 @@ module Naginata
     #  super(args, opts, config)
     #end
 
+    desc "version", "Prints the naginata's version information"
+    def version
+      require 'naginata/version'
+      Naginata.ui.info "Naginata version #{Naginata::VERSION}"
+    end
+    map %w(--version) => :version
+
     desc 'init', 'Init generates a default Nagipfile into current directory'
     def init
       require 'naginata/cli/init'
