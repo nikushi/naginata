@@ -1,4 +1,5 @@
 require 'nagios_analyzer'
+require 'time'
 
 module NagiosAnalyzer
   class Section
@@ -32,6 +33,13 @@ module NagiosAnalyzer
       ret.join(",")
     end
 
+    def start_time
+      Time.at(object.start_time).strftime("%m-%d-%Y %H:%M:%S")
+    end
+
+    def end_time
+      Time.at(object.end_time).strftime("%m-%d-%Y %H:%M:%S")
+    end
   end
 end
 

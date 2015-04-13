@@ -6,7 +6,7 @@ require 'naginata/status_decorator'
 module Naginata
   class Status
     extend Forwardable
-    def_delegators :@status, :service_items, :host_items, :items, :service_problems, :host_problems, :scopes
+    def_delegators :@status, :service_items, :host_items, :items, :service_problems, :host_problems, :scopes, :hostdowntime_items, :servicedowntime_items
     attr_accessor :status, :hostname
     alias :nagios :hostname
 

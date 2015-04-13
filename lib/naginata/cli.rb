@@ -2,6 +2,7 @@ require 'thor'
 require 'naginata/configuration'
 require 'naginata/loader'
 
+require 'etc'
 module Naginata
   class CLI < Thor
     class_option :verbose, aliases: "-v", type: :boolean
@@ -58,6 +59,29 @@ module Naginata
       CLI::ActiveCheck.new(options.merge(patterns: patterns)).execute
     end
 
+    desc 'downtime [hostpattern ..] [OPTIONS]', 'Control downtime'
+    method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
+    method_option :author, desc: "Your name", type: :string, default: (ENV['USER'] || ENV['LOGNAME'] || Etc.getlogin || Etc.getpwuid.name)
+    method_option :cancel, aliases: "-C", desc: "Cancel downtimes", type: :boolean
+    method_option :dry_run, aliases: "-n", type: :boolean
+    method_option :end, desc: "End time", type: :string
+    method_option :force, aliases: "-f", desc: "Run without prompting for confirmation", type: :boolean
+    method_option :list, aliases: "-l", desc: "List downtimes", type: :boolean
+    method_option :comment, aliases: %w(-m --message), desc: "Comment", default: 'Set from naginata'
+    method_option :cancel, aliases: "-C", desc: "Cancel downtimes", type: :boolean
+    method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
+    method_option :schedule, aliases: "-S", desc: "Schedule downtimes", type: :boolean
+    method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
+    method_option :start, desc: "Start time", default: Time.now.to_s
+    def downtime(*patterns)
+      if patterns.empty? and (!options[:schedule] and !options[:cancel] and !options[:list])
+        help(:downtime)
+        exit(1)
+      end
+      require 'naginata/cli/downtime'
+      CLI::Downtime.new(options.merge(patterns: patterns)).execute
+    end
+
     method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
     desc 'fetch', 'Download remote status.dat and create cache on local'
     def fetch
@@ -91,6 +115,7 @@ module Naginata
       require 'naginata/cli/services'
       CLI::Services.new(options.merge(patterns: patterns)).execute
     end
+
   end
 end
  

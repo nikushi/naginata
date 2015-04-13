@@ -155,6 +155,41 @@ $ naginata services web01.example.com db01.example.com
 $ naginata services -a -s PING,SWAP
 ```
 
+### Schedule Downtime
+
+This is generally used for creating fixed downtimes or canceling them. This command can be used on hosts and services. You can also specify the author and comment with scheduling downtime.
+
+#### Schedule
+
+$ naginata downtime [hostpattern..] --schedule [OPTION]
+
+OPTIONS:
+
+```
+-S|--schedule
+--start 'yyyy-mm-dd hh:mm:ss'  # optional
+--end   'yyyy-mm-dd hh:mm:ss'  # required
+-s      CPU,Mem     #optional
+--author "Your name" # optional
+--m|--message|--comment  # optional
+```
+
+#### Cancel
+
+$ naginata downtime [hostpattern..] --cancel [OPTION]
+
+```
+-C|--cancel
+-s      CPU,Mem     #optional
+--downtime-id  # optional
+--author "Your name" # optional
+--m|--message|--comment  # optional
+```
+
+#### View downtimes
+
+$ naginata downtime list
+
 ### View host status (Experimental)
 
 #### View all host status

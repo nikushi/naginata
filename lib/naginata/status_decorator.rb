@@ -21,6 +21,36 @@ module Naginata
       end
     end
 
+    def hostdowntime_table
+      require 'time'
+      object.hostdowntime_items.sort.map do |section|
+        [
+          object.nagios,
+          section.host_name,
+          section.decorate.start_time,
+          section.decorate.end_time,
+          section.author,
+          section.comment,
+        ]
+      end
+    end
+
+    def servicedowntime_table
+      require 'time'
+      object.servicedowntime_items.sort.map do |section|
+        [
+          object.nagios,
+          section.host_name,
+          section.service_description,
+          section.decorate.start_time,
+          section.decorate.end_time,
+          section.author,
+          section.comment,
+        ]
+      end
+    end
+
+
   end
 end
 
