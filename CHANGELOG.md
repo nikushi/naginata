@@ -1,3 +1,14 @@
+### 0.1.5 - 2015/06/09
+
+CLI:
+
+* Print version number
+* Add naginata activecheck subcommand
+
+Fixes:
+
+* Run commands on login user if run_command_as is not set
+
 ### 0.1.4 - 2015/04/08
 
 CLI:
