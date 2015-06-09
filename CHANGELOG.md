@@ -16,6 +16,10 @@ CLI:
 * Add shorter aliases -N for --nagios option
 * Add -w option wide output for hosts and services view
 
+Fixes:
+
+* Filter nagios servers before loading cached status file
+
 ### 0.1.3 - 2015/04/06
 
 Fixes:
