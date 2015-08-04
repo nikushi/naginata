@@ -1,4 +1,6 @@
 require 'naginata/dsl'
+require 'naginata/configuration'
+require 'naginata/shared_helpers'
 
 module Naginata
   class Loader
@@ -6,11 +8,18 @@ module Naginata
 
     class << self
       include Naginata::DSL
+      include SharedHelpers
 
       def load_configuration
+        # Load defaults.rb
         instance_eval File.read(File.join(File.dirname(__FILE__), 'defaults.rb'))
-        naginatafile_path = find_naginatafile
-        instance_eval File.read naginatafile_path
+        # Load Naginatafile
+        naginatafile_path = ::Naginata::Configuration.env.fetch(:naginatafile) || find_naginatafile
+        if naginatafile_path.nil? or !File.file?(naginatafile_path)
+          raise NaginatafileNotFound, 'Could not locate Naginatafile'
+        else
+          instance_eval File.read naginatafile_path
+        end
       end
 
       def load_remote_objects(fetch_options = {})
@@ -25,18 +34,6 @@ module Naginata
             services = sections.map { |s| s.service_description }
             Configuration.env.host(host, services: services, on: nagios_server.hostname)
           end
-        end
-
-      end
-
-      private
-
-      def find_naginatafile
-        naginatafile_path = File.expand_path('Naginatafile')
-        if File.file?(naginatafile_path)
-          return naginatafile_path
-        else
-          raise NaginatafileNotFound, 'Could not locate Naginatafile'
         end
       end
 

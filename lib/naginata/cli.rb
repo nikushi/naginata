@@ -29,6 +29,7 @@ module Naginata
     method_option :disable, aliases: "-d", desc: "Disable notification", type: :boolean
     method_option :dry_run, aliases: "-n", type: :boolean
     method_option :force, aliases: "-f", desc: "Run without prompting for confirmation", type: :boolean
+    method_option :naginatafile, desc: "The location of Naginatafile. This defaults to a Naginatafile on the current working directory."
     method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
     method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
@@ -46,6 +47,7 @@ module Naginata
     method_option :disable, aliases: "-d", desc: "Disable active checks", type: :boolean
     method_option :dry_run, aliases: "-n", type: :boolean
     method_option :force, aliases: "-f", desc: "Run without prompting for confirmation", type: :boolean
+    method_option :naginatafile, desc: "The location of Naginatafile. This defaults to a Naginatafile on the current working directory."
     method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
     method_option :services, aliases: "-s", desc: "Services to be enabled|disabled", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
@@ -66,6 +68,7 @@ module Naginata
     end
 
     desc 'hosts [hostpattern ..]', 'View host status'
+    method_option :naginatafile, desc: "The location of Naginatafile. This defaults to a Naginatafile on the current working directory."
     method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
     method_option :wide, aliases: "-w", desc: "Wide output", type: :boolean
@@ -79,6 +82,7 @@ module Naginata
     end
 
     desc 'services [hostpattern ..]', 'View service status'
+    method_option :naginatafile, desc: "The location of Naginatafile. This defaults to a Naginatafile on the current working directory."
     method_option :nagios, aliases: "-N", desc: "Filter targeted nagios servers by their hostname", type: :array
     method_option :services, aliases: "-s", desc: "Filter by service description", type: :array
     method_option :all_hosts, aliases: "-a", desc: "Target all hosts", type: :boolean
