@@ -2,11 +2,9 @@
 # ========================
 # Defines nagios servers with multiple properties.
 
-# nagios_server 'nagios.tokyo.example.com', user: 'nagios'
-# nagios_server 'nagios.ny.example.com', user: 'nagios', port: '10022'
+# nagios_server 'nagios.tokyo.example.com'
 # nagios_server 'admin@nagios.sf.example.com'
 # nagios_server 'admin@nagios.sha.example.com:10022'
-# nagios_server 'nagios.uk.example.com', keys: %w(/path/to/private_key)
 
 # Global Nagios Server Options
 # ============================
