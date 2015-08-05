@@ -1,3 +1,9 @@
+### 0.1.7 - 2015/08/05
+
+Fixes:
+
+* Path instance_eval() a filename
+
 ### 0.1.6 - 2015/08/05
 
 CLI:
