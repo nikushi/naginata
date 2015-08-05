@@ -12,13 +12,14 @@ module Naginata
 
       def load_configuration
         # Load defaults.rb
-        instance_eval File.read(File.join(File.dirname(__FILE__), 'defaults.rb'))
+        default = File.join(File.dirname(__FILE__), 'defaults.rb')
+        instance_eval File.read(default), default
         # Load Naginatafile
         naginatafile_path = ::Naginata::Configuration.env.fetch(:naginatafile) || find_naginatafile
         if naginatafile_path.nil? or !File.file?(naginatafile_path)
           raise NaginatafileNotFound, 'Could not locate Naginatafile'
         else
-          instance_eval File.read naginatafile_path
+          instance_eval File.read(naginatafile_path), naginatafile_path
         end
       end
 
