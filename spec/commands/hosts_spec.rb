@@ -65,4 +65,21 @@ describe 'naginata hosts' do
     end
   end
 
+  it_runs 'with --naginatafile' do
+    let(:args) { %w(hosts web01.example.com) }
+    let(:options) { {} }
+    let(:expected_out) { /^NAGIOS\s+HOST\s+STATUS\s+FLAGS\s+OUTPUT$/ }
+  end
+
+  it_runs 'with setting NAGINATAFILE' do
+    let(:args) { %w(hosts web01.example.com) }
+    let(:options) { {} }
+    let(:expected_out) { /^NAGIOS\s+HOST\s+STATUS\s+FLAGS\s+OUTPUT$/ }
+  end
+
+  it_runs 'with ~/.naginata/Naginatafile' do
+    let(:args) { %w(hosts web01.example.com) }
+    let(:options) { {} }
+    let(:expected_out) { /^NAGIOS\s+HOST\s+STATUS\s+FLAGS\s+OUTPUT$/ }
+  end
 end

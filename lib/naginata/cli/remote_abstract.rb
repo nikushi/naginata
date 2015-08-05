@@ -9,12 +9,21 @@ module Naginata
     end
 
     def execute
+      set_custom_naginatafile
       load_configuration
       set_log_level
       set_nagios_filter
       configure_backend
       load_remote_objects
       run
+    end
+
+    def set_custom_naginatafile
+      if custom_path = @options[:naginatafile] || ENV['NAGINATAFILE']
+        custom_path = File.expand_path(custom_path)
+        raise NaginatafileNotFound, "Could not locate Naginatafile" unless File.file?(custom_path)
+        ::Naginata::Configuration.env.set(:naginatafile, custom_path)
+      end
     end
 
     def set_log_level

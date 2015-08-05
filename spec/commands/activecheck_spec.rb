@@ -50,6 +50,24 @@ describe 'naginata activecheck' do
 
   %w(enable disable).each do |action|
     describe action do
+      it_runs 'with --naginatafile' do
+        let(:args) { %w(notification myserver) }
+        let(:options) { { action.to_sym => true, :verbose => true, :force => true } }
+        let(:expected_out) { 'Done' }
+      end
+
+      it_runs 'with setting NAGINATAFILE' do
+        let(:args) { %w(notification myserver) }
+        let(:options) { { action.to_sym => true, :verbose => true, :force => true } }
+        let(:expected_out) { 'Done' }
+      end
+
+      it_runs 'with ~/.naginata/Naginatafile' do
+        let(:args) { %w(notification myserver) }
+        let(:options) { { action.to_sym => true, :verbose => true, :force => true } }
+        let(:expected_out) { 'Done' }
+      end
+
       describe 'target one host' do
         before {
           naginatafile <<-EOS
