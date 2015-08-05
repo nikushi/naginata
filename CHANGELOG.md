@@ -1,3 +1,15 @@
+### 0.1.6 - 2015/08/05
+
+CLI:
+
+* Support any Naginatafile location other than cwd
+  * Add --naginatafile CLI option and NAGINATAFILE environment variable
+  * Naginatafile can be located at ~/.naginata/Naginatafile or /etc/Naginatafile
+
+Fixes:
+
+* Remove the params examples of nagios_server dsl from the template
+
 ### 0.1.5 - 2015/06/09
 
 CLI:
