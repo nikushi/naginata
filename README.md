@@ -12,7 +12,7 @@ If you already have nagios servers, it's easy to try out Naginata! It does not r
 
 ## Requirements
 
-* Ruby 1.9.3, 2.0.0, 2.1.x, 2.2.x, 2.3.x
+* Ruby 2.0.0, 2.1.x, 2.2.x, 2.3.x
 * Nagios 3.x, 4.x
 
 ## Installation
