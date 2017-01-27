@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Remote multi nagios server control tool"
   spec.description   = "Remote multi nagios server control tool over ssh connection"
-  spec.homepage      = "https://github.com/niku4i/naginata"
+  spec.homepage      = "https://github.com/nikushi/naginata"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }

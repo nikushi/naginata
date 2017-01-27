@@ -1,4 +1,4 @@
-# Naginata [![Build Status](https://travis-ci.org/niku4i/naginata.svg?branch=master)](https://travis-ci.org/niku4i/naginata) [![Coverage Status](https://coveralls.io/repos/niku4i/naginata/badge.svg)](https://coveralls.io/r/niku4i/naginata) [![Gem Version](https://badge.fury.io/rb/naginata.svg)](http://badge.fury.io/rb/naginata)
+# Naginata [![Build Status](https://travis-ci.org/nikushi/naginata.svg?branch=master)](https://travis-ci.org/nikushi/naginata) [![Coverage Status](https://coveralls.io/repos/nikushi/naginata/badge.svg)](https://coveralls.io/r/nikushi/naginata) [![Gem Version](https://badge.fury.io/rb/naginata.svg)](http://badge.fury.io/rb/naginata)
 
 Naginata is multi nagios server control tool. If you have multiple nagios servers and want to control them from single workstation host by CLI over ssh connection, Naginata is good for you.
 
